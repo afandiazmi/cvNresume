@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV & Resume Forge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+      /* Move overflow handling here instead of body tag to prevent print issues */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: #f1f5f9;
+      }
+      
+      #root {
+        height: 100vh;
+        overflow: hidden; /* Keeps the SPA feel on screen */
+      }
+
+      /* Custom scrollbar for webkit */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8; 
+      }
+      
+      /* A4 Preview Base Styles */
+      .a4-page {
+        width: 210mm;
+        /* Min-height ensures it looks like A4 on screen, but auto allows growth */
+        min-height: 297mm; 
+        height: auto; 
+        background-color: white;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        margin: 0 auto;
+        transform-origin: top center;
+        position: relative;
+      }
+
+      /* Visual Page Break Indicator for Screen Only */
+      @media screen {
+        .a4-page {
+          /* Creates a subtle dashed line every 297mm to show page breaks */
+          background-image: linear-gradient(to bottom, transparent calc(297mm - 1px), #cbd5e1 calc(297mm - 1px), #cbd5e1 297mm);
+          background-size: 100% 297mm;
+          background-repeat: repeat-y;
+        }
+      }
+
+      /* Print Styles for PDF Generation */
+      @media print {
+        @page { 
+          size: A4; 
+          margin: 0; /* Important: Remove default margins so our backgrounds bleed to edge */
+        }
+        
+        /* Reset EVERYTHING to ensure flow */
+        html, body, #root, #app-wrapper, main, .preview-container, .print-break-fix {
+          height: auto !important;
+          width: 100% !important;
+          overflow: visible !important;
+          display: block !important;
+          position: static !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          background: white !important;
+        }
+
+        /* Hide UI elements */
+        header, aside, .zoom-controls, .no-print { 
+          display: none !important; 
+        }
+        
+        /* The Resume Page Wrapper */
+        .a4-page {
+          margin: 0 !important;
+          box-shadow: none !important;
+          width: 100% !important;
+          min-height: 297mm !important; /* Force at least one page */
+          height: auto !important;
+          background-image: none !important; /* Remove screen guides */
+          transform: none !important; /* Remove zoom scaling */
+          left: 0 !important;
+          top: 0 !important;
+          print-color-adjust: exact !important;
+          -webkit-print-color-adjust: exact !important;
+        }
+
+        /* Ensure content blocks don't get sliced awkwardly */
+        .break-inside-avoid {
+          break-inside: avoid !important;
+          page-break-inside: avoid !important;
+        }
+
+        /* Enforce color printing for backgrounds */
+        .modern-template-bg, .creative-template-bg {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-slate-100 text-slate-900 font-sans antialiased">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
